@@ -13,8 +13,11 @@ class Release():
 def get_newest_release(path):
     URL = f"https://api.github.com/repos/{path}/releases/latest"
     request = get(URL)
-    newest_release = Release(request.json())
-    return newest_release
+    if request.ok:
+        newest_release = Release(request.json())
+        return newest_release
+    else:
+        return None
 
 if __name__ == "__main__":
     x = get_newest_release("HiruNya/Overwatch-Checklist-rs")
