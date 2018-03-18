@@ -17,6 +17,12 @@ parser_check = subparsers.add_parser(
     "check",
     help="Compares the version listed in the index to the latest version on Github")
 parser_check.add_argument("name", help="The name of the program")
+# hb list
+subparsers.add_parser(
+    "list",
+    help="Lists all the programs in the index"
+)
+
 args = parser.parse_args()
 
 if args.cmd == "get":
@@ -41,3 +47,9 @@ elif args.cmd == "check":
                 print(index_data['version'].ljust(15), '->', github_data.tag_name)
     else:
         print(f'Error: Program "{args.name}" could not be found in the index.')
+elif args.cmd == "list":
+    index_data = index.get_all()
+    for i in index_data.keys():
+        print(i, "=>")
+        print("  Version".ljust(COL2), index_data[i]['version'])
+        print("  Path".ljust(COL2), index_data[i]['path'])
