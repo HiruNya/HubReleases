@@ -1,8 +1,8 @@
-from yaml import load
+from yaml import load, dump
 FILE = "../index.yaml"
 
 def get_all():
-    with open(FILE) as file:
+    with open(FILE, "r") as file:
         return load(file.read())
 
 def get(key):
@@ -20,21 +20,22 @@ def check(key):
         else:
             return False
 
-def check_and_insert(key, version, path, cont=False):
-    with open(FILE, "w") as file:
+def check_and_insert(key, version, path):
+    with open(FILE, "r") as file:
         data = load(file.read())
-        if key in data:
-            return False
-        else:
-            data[key] = {
-                "version": version,
-                "path": path,
-            }
-            return True
-        file.write(data)
+    if key in data:
+        return False
+    else:
+        data[key] = {
+            "version": version,
+            "path": path,
+        }
+        with open(FILE, "w") as file:
+            file.write(dump(data))
+        return True
 
 def update(key, version):
-    with open(FILE, "w") as file:
+    with open(FILE, "r+") as file:
         data = load(file.read())
     try:
         data[key] = version
