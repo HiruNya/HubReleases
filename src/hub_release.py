@@ -29,6 +29,11 @@ parser_add = subparsers.add_parser(
 parser_add.add_argument("-n", "--name", help="The name of the program")
 parser_add.add_argument("-p", "--path", help="The url path of the github repo")
 parser_add.add_argument("-v", "--version", help="The version of your program")
+# hb del
+parser_del = subparsers.add_parser(
+    "del", help="Removes a program from the index"
+)
+parser_del.add_argument("name", help="The name of the program")
 
 args = parser.parse_args()
 
@@ -96,6 +101,11 @@ elif args.cmd == "add":
         print(f"Program {name} added to the index!")
     else:
         print('Error! That name is already present in the index. Use the "change" command instead.')
+elif args.cmd == "del":
+    name = args.name.lower()
+    if index.delete(name):
+        print(f"Program {name} was removed from the index.")
+    else: print("No such program exists.")
 
 else:
     print("Use the -h command to get a list of the commands usable.")

@@ -42,3 +42,14 @@ def update(key, version):
         return True
     except KeyError:
         return False
+
+def delete(key):
+    with open(FILE, "r") as file:
+        data = load(file.read())
+    try:
+        del data[key]
+        with open(FILE, "w") as file:
+            file.write(dump(data))
+        return True
+    except KeyError:
+        return False
