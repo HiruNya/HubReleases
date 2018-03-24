@@ -1,5 +1,5 @@
 from yaml import load, dump
-FILE = "../index.yaml"
+FILE = "index.yaml"
 
 def get_all():
     with open(FILE, "r") as file:

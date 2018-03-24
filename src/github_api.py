@@ -1,5 +1,4 @@
 from requests import get
-from json import loads
 
 class Release():
     def __init__(self, response):
