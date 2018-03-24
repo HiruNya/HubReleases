@@ -1,6 +1,4 @@
-import github_api
-import simple_ver
-import index
+from src import github_api, simple_ver, index
 import argparse
 
 COL2 = 10
