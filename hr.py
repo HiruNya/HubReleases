@@ -30,6 +30,8 @@ parser_add = subparsers.add_parser(
 parser_add.add_argument("-n", "--name", help="The name of the program")
 parser_add.add_argument("-p", "--path", help="The url path of the github repo")
 parser_add.add_argument("-v", "--version", help="The version of your program")
+parser_add.add_argument("-e", "--exact", action="store_true", help="Use the exact path without parsing it (Only use it's not working as intended)")
+
 # hb del
 parser_del = subparsers.add_parser(
     "del", help="Removes a program from the index"
@@ -43,6 +45,7 @@ parser_update.add_argument("name", help="The name of the program currently")
 parser_update.add_argument("-n", "--new_name", help="The name you want to rename the program to")
 parser_update.add_argument("-p", "--path", help="The new path")
 parser_update.add_argument("-v", "--version", help="The version you wish to update it to")
+parser_update.add_argument("-e", "--exact", action="store_true", help="Use the exact path without parsing it (Only use it's not working as intended)")
 
 args = parser.parse_args()
 
@@ -92,7 +95,7 @@ elif args.cmd == "add":
     if args.path is None:
         path = input("Repo's Path/URL: ")
     else: path = args.path
-    path = parse_path(path)
+    path = args.path if args.exact else parse_path(args.path)
     print(f'Recorded Path as: {path}')
     if args.version is None:
         choice = input("Would you like us to use the current version from GitHub? (y/n): ").lower().strip(" ")
@@ -119,7 +122,7 @@ elif args.cmd == "update":
     if index.check(args.name):
         n_data = {}
         if args.path is not None:
-            n_data["path"] = parse_path(args.path)
+            n_data["path"] = args.path if args.exact else parse_path(args.path)
         if args.version is not None:
             n_data["version"] = args.version
         if args.new_name is not None:
