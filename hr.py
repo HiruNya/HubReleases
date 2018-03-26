@@ -3,6 +3,9 @@ import argparse
 
 COL2 = 10
 
+def parse_path(path):
+    return path.replace("http://", "").replace("https://", "").replace("www.", "").replace("github.com/", "").replace("/releases", "")
+
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(dest="cmd")
 # hb get [name]
@@ -32,6 +35,14 @@ parser_del = subparsers.add_parser(
     "del", help="Removes a program from the index"
 )
 parser_del.add_argument("name", help="The name of the program")
+#hb update
+parser_update = subparsers.add_parser(
+    "update", help="Updates a program int he index manually"
+)
+parser_update.add_argument("name", help="The name of the program currently")
+parser_update.add_argument("-n", "--new_name", help="The name you want to rename the program to")
+parser_update.add_argument("-p", "--path", help="The new path")
+parser_update.add_argument("-v", "--version", help="The version you wish to update it to")
 
 args = parser.parse_args()
 
@@ -81,7 +92,7 @@ elif args.cmd == "add":
     if args.path is None:
         path = input("Repo's Path/URL: ")
     else: path = args.path
-    path = path.lstrip("http").lstrip("s").lstrip("://").lstrip("www.").lstrip("github.com/").rstrip("/releases")
+    path = parse_path(path)
     print(f'Recorded Path as: {path}')
     if args.version is None:
         choice = input("Would you like us to use the current version from GitHub? (y/n): ").lower().strip(" ")
@@ -104,6 +115,20 @@ elif args.cmd == "del":
     if index.delete(name):
         print(f"Program {name} was removed from the index.")
     else: print("No such program exists.")
+elif args.cmd == "update":
+    if index.check(args.name):
+        n_data = {}
+        if args.path is not None:
+            n_data["path"] = parse_path(args.path)
+        if args.version is not None:
+            n_data["version"] = args.version
+        if args.new_name is not None:
+            if index.check(args.new_name):
+                print("That name is already taken.")
+                raise KeyError
+        index.update_manual(args.name, n_data, args.new_name)
+    else:
+        print("That program was not found in the index.")
 
 else:
     print("Use the -h command to get a list of the commands usable.")

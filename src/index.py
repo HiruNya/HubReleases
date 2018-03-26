@@ -43,6 +43,19 @@ def update(key, version):
     except KeyError:
         return False
 
+def update_manual(key, n_data, new_name=None):
+    with open(FILE, "r") as file:
+        c_data = load(file.read())
+    try:
+        for i in n_data.keys():
+            c_data[key][i] = n_data[i]
+        if new_name is not None:
+            c_data[new_name]
+        with open(FILE, "w") as file:
+            file.write(dump(c_data))
+    except KeyError:
+        print("A key error ocurred when manually updating the index file.\nNothing was saved.")
+
 def delete(key):
     with open(FILE, "r") as file:
         data = load(file.read())
