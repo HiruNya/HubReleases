@@ -3,8 +3,8 @@ Checks whether your github release is up to date.
 
 ## Requirements
 (download via pip)<br/>
-- Requests ~ ``pip install requests``
-- Yaml ~ ``pip install PyYAML``
+- [Requests](http://python-requests.org) ~ ``pip install requests``
+- [pyYAML](https://github.com/yaml/pyyaml) ~ ``pip install PyYAML``
 
 ## Commands
 ```hr -h``` Get a list of commands and what they do and gives specific information when used with a command<br/>
