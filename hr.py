@@ -95,7 +95,7 @@ elif args.cmd == "add":
     if args.path is None:
         path = input("Repo's Path/URL: ")
     else: path = args.path
-    path = args.path if args.exact else parse_path(args.path)
+    path = path if args.exact else parse_path(path)
     print(f'Recorded Path as: {path}')
     if args.version is None:
         choice = input("Would you like us to use the current version from GitHub? (y/n): ").lower().strip(" ")

@@ -35,13 +35,15 @@ def check_and_insert(key, version, path):
         return True
 
 def update(key, version):
-    with open(FILE, "r+") as file:
+    with open(FILE, "r") as file:
         data = load(file.read())
     try:
-        data[key] = version
-        return True
+        data[key]["version"] = version
     except KeyError:
         return False
+    with open(FILE, "w") as file:
+        file.write(dump(data))
+    return True
 
 def update_manual(key, n_data, new_name=None):
     with open(FILE, "r") as file:
