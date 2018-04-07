@@ -1,8 +1,1 @@
-hi: {
-  version: 3.0.1,
-  path: hello/world
-}
-"o-c": {
-  version: 1.0.0,
-  path: HiruNya/Overwatch-Checklist-rs
-}
+{}
